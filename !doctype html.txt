@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="light dark" />
+  <meta name="description" content="极简、优雅、纯静态的网站模板，包含图文、功能亮点、图集与联系表单。" />
+  <meta name="keywords" content="静态网站, 单文件, 极简, 优雅, 中文模板, 响应式" />
+  <link rel="icon" href='data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><defs><linearGradient id="g" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#5bbcff"/><stop offset="1" stop-color="#8bd5ff"/></linearGradient></defs><rect rx="14" width="64" height="64" fill="url(%23g)"/><path d="M16 34c8-16 24-16 32 0-8 16-24 16-32 0Z" fill="white" opacity=".9"/></svg>' />
+  <title>极简优雅 · 静态网站模板</title>
+  <style>
+    /* ===== 基础设计变量 ===== */
+    :root{
+      --bg: #ffffff;
+      --fg: #0f172a; /* slate-900 */
+      --muted: #475569; /* slate-600 */
+      --card: #f8fafc; /* slate-50 */
+      --border: #e2e8f0; /* slate-200 */
+      --accent: #1d9bf0; /* 优雅蓝 */
+      --accent-2: #7cd3ff;
+      --shadow: 0 8px 24px rgba(2,6,23,.08);
+      --radius: 16px;
+      --gap: clamp(16px, 2vw, 24px);
+      --container: min(1100px, 92vw);
+    }
+    html[data-theme="dark"]{
+      --bg: #0b1220;
+      --fg: #e5e7eb;
+      --muted: #94a3b8;
+      --card: #0f172a;
+      --border: #1f2937;
+      --accent: #5bbcff;
+      --accent-2: #2ea6ff;
+      --shadow: 0 10px 28px rgba(0,0,0,.35);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font: 16px/1.65 system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "PingFang SC", "Microsoft YaHei", "Apple Color Emoji", "Segoe UI Emoji";
+      color:var(--fg);
+      background:radial-gradient(1200px 800px at 80% -10%, rgba(29,155,240,.08), transparent 60%),
+                 radial-gradient(900px 600px at -10% 20%, rgba(124,211,255,.10), transparent 60%),
+                 var(--bg);
+      -webkit-font-smoothing:antialiased;
+      text-rendering:optimizeLegibility;
+      scroll-behavior:smooth;
+    }
+    a{color:var(--accent);text-decoration:none}
+    a:hover{text-decoration:underline}
+    img,svg{display:block;max-width:100%;height:auto}
+    .container{width:var(--container);margin-inline:auto;padding: clamp(20px, 3vw, 28px)}
+    .btn{display:inline-flex;align-items:center;gap:.6em;padding:.78em 1.1em;border-radius:999px;border:1px solid var(--border);background:linear-gradient(180deg, rgba(255,255,255,.6), rgba(255,255,255,.2));backdrop-filter:saturate(140%) blur(4px);box-shadow:var(--shadow);color:var(--fg);font-weight:600}
+    .btn.primary{background:linear-gradient(180deg, var(--accent), var(--accent-2));color:#fff;border-color:transparent}
+    .btn:hover{transform:translateY(-1px)}
+
+    /* ===== 顶部导航 ===== */
+    header{position:sticky;top:0;z-index:20;background:color-mix(in oklab, var(--bg) 92%, transparent);backdrop-filter:saturate(140%) blur(6px);border-bottom:1px solid var(--border)}
+    .nav{display:flex;align-items:center;justify-content:space-between;gap:var(--gap)}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.3px}
+    .brand-badge{width:34px;height:34px;border-radius:10px;background:linear-gradient(145deg, var(--accent), var(--accent-2));display:grid;place-items:center;box-shadow:var(--shadow)}
+    .brand-badge svg{width:18px;height:18px;fill:#fff}
+    .nav-links{display:flex;align-items:center;gap:18px}
+    .nav-links a{color:var(--muted);font-weight:600}
+    .nav-actions{display:flex;align-items:center;gap:10px}
+    .menu-btn{display:none}
+
+    /* ===== 首屏（Hero） ===== */
+    .hero{position:relative;padding-block: clamp(56px, 12vh, 120px)}
+    .hero-grid{display:grid;grid-template-columns: 1.2fr .8fr;gap:clamp(20px, 3vw, 36px);align-items:center}
+    .hero h1{font-size:clamp(28px, 4.2vw, 56px);line-height:1.12;margin:0 0 12px;font-weight:900;letter-spacing:.3px}
+    .hero p{color:var(--muted);margin:0 0 22px}
+    .hero-art{position:relative;isolation:isolate}
+    .glass{
+      border-radius:var(--radius);
+      background:linear-gradient(180deg, rgba(255,255,255,.55), rgba(255,255,255,.15));
+      border:1px solid var(--border);
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+    .badge{display:inline-flex;align-items:center;gap:.6em;padding:.42em .72em;border-radius:999px;background:color-mix(in oklab, var(--accent) 10%, transparent);border:1px solid var(--border);font-weight:700;color:var(--accent);}
+
+    /* ===== 功能亮点 ===== */
+    .features{padding-block: clamp(36px, 8vh, 80px)}
+    .feat-grid{display:grid;grid-template-columns: repeat(4, 1fr);gap:var(--gap)}
+    .card{padding:22px;border:1px solid var(--border);border-radius:var(--radius);background:linear-gradient(180deg, rgba(255,255,255,.6), rgba(255,255,255,.2));box-shadow:var(--shadow)}
+    .card h3{margin:10px 0 6px}
+    .card p{margin:0;color:var(--muted)}
+    .icon{width:24px;height:24px}
+
+    /* ===== 图集 ===== */
+    .gallery{padding-block: clamp(36px, 8vh, 84px)}
+    .grid{display:grid;grid-template-columns: repeat(3, 1fr);gap:var(--gap)}
+    .tile{aspect-ratio: 4/3;border-radius:calc(var(--radius) + 6px);overflow:hidden;border:1px solid var(--border);box-shadow:var(--shadow);background:var(--card)}
+    .tile figcaption{padding:10px 12px;color:var(--muted);font-size:.95rem}
+
+    /* ===== 关于 + 联系 ===== */
+    .about{padding-block: clamp(24px, 6vh, 60px)}
+    .about .wrap{display:grid;grid-template-columns: 1fr 1fr;gap:var(--gap);align-items:start}
+    form{display:grid;gap:10px}
+    input, textarea{width:100%;padding:12px 14px;border:1px solid var(--border);border-radius:12px;background:var(--bg);color:var(--fg)}
+    textarea{min-height:120px;resize:vertical}
+
+    /* ===== 页脚 ===== */
+    footer{margin-top:40px;padding:26px 0;border-top:1px solid var(--border);color:var(--muted)}
+
+    /* ===== 响应式 ===== */
+    @media (max-width: 980px){
+      .hero-grid{grid-template-columns:1fr}
+      .feat-grid{grid-template-columns: repeat(2, 1fr)}
+      .about .wrap{grid-template-columns:1fr}
+    }
+    @media (max-width: 600px){
+      .nav-links{display:none}
+      .menu-btn{display:inline-flex}
+      .grid{grid-template-columns:1fr}
+      .feat-grid{grid-template-columns:1fr}
+    }
+
+    /* ===== 轻动画 ===== */
+    @keyframes float{from{transform:translateY(0)}50%{transform:translateY(-8px)}to{transform:translateY(0)}}
+    .float{animation:float 7s ease-in-out infinite}
+    @media (prefers-reduced-motion: reduce){
+      *{animation:none!important;transition:none!important}
+    }
+  </style>
+</head>
+<body>
+  <a href="#main" class="visually-hidden">跳到主要内容</a>
+  <style>
+    .visually-hidden{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
+  </style>
+  
+  <!-- ===== 顶部导航 ===== -->
+  <header>
+    <div class="container nav" role="navigation" aria-label="主导航">
+      <div class="brand">
+        <span class="brand-badge" aria-hidden="true">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 .001 18.001A9 9 0 0 0 12 3Zm0 2a7 7 0 1 1 0 14 7 7 0 0 1 0-14Z"/></svg>
+        </span>
+        <span>极简优雅</span>
+      </div>
+      <nav class="nav-links">
+        <a href="#features">功能亮点</a>
+        <a href="#gallery">图集</a>
+        <a href="#about">关于</a>
+        <a href="#contact">联系</a>
+      </nav>
+      <div class="nav-actions">
+        <button class="btn" id="themeToggle" aria-label="切换主题">🌗</button>
+        <a class="btn primary" href="#contact">开始合作</a>
+        <button class="btn menu-btn" id="menuBtn" aria-expanded="false" aria-controls="mobileMenu">菜单</button>
+      </div>
+    </div>
+    <div class="container" id="mobileMenu" hidden>
+      <nav class="card" style="padding:14px; margin-top:10px;" aria-label="移动导航">
+        <a href="#features">功能亮点</a>
+        <a href="#gallery">图集</a>
+        <a href="#about">关于</a>
+        <a href="#contact">联系</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- ===== 首屏区域 ===== -->
+    <section class="hero container">
+      <div class="hero-grid">
+        <div>
+          <span class="badge">纯静态 · 零依赖</span>
+          <h1>极简而不简单，<br>一页式静态网站模板</h1>
+          <p>优雅配色 · 细腻排版 · SVG 插画 · 图文并茂。无需构建工具，直接部署到任意静态空间（GitHub Pages、Vercel、Netlify、阿里云 OSS 等）。</p>
+          <div style="display:flex; gap:10px; flex-wrap:wrap">
+            <a class="btn primary" href="#features">查看亮点</a>
+            <a class="btn" href="#gallery">浏览图集</a>
+          </div>
+        </div>
+        <div class="hero-art">
+          <figure class="glass float" aria-label="抽象几何插画">
+            <!-- 自绘 SVG 插图：柔和蓝调 + 几何 -->
+            <svg viewBox="0 0 800 520" role="img" aria-label="极简插画：蓝色渐变、圆与波纹">
+              <defs>
+                <linearGradient id="bgG" x1="0" x2="1" y1="0" y2="1">
+                  <stop stop-color="#e6f6ff"/>
+                  <stop offset="1" stop-color="#f6fbff"/>
+                </linearGradient>
+                <linearGradient id="orb" x1="0" x2="1">
+                  <stop stop-color="#1d9bf0"/>
+                  <stop offset="1" stop-color="#7cd3ff"/>
+                </linearGradient>
+                <radialGradient id="glow" cx="50%" cy="50%" r="60%">
+                  <stop offset="0" stop-color="#8bd5ff" stop-opacity=".25"/>
+                  <stop offset="1" stop-color="#8bd5ff" stop-opacity="0"/>
+                </radialGradient>
+              </defs>
+              <rect width="800" height="520" fill="url(#bgG)"/>
+              <circle cx="620" cy="120" r="110" fill="url(#orb)"/>
+              <circle cx="170" cy="120" r="90" fill="url(#glow)"/>
+              <g fill="none" stroke="#bfe7ff" stroke-width="2" opacity=".75">
+                <path d="M0 360 C 160 320, 320 400, 480 360 S 800 400, 800 360"/>
+                <path d="M0 400 C 180 360, 320 440, 520 390 S 800 440, 800 400"/>
+              </g>
+              <g opacity=".9">
+                <rect x="120" y="220" width="220" height="150" rx="16" fill="#ffffff" stroke="#e6eef6"/>
+                <rect x="160" y="260" width="140" height="12" rx="6" fill="#1d9bf0"/>
+                <rect x="160" y="286" width="120" height="10" rx="5" fill="#b6c7d9"/>
+                <rect x="160" y="306" width="100" height="10" rx="5" fill="#c9d7e6"/>
+                <rect x="380" y="250" width="300" height="180" rx="18" fill="#ffffff" stroke="#e6eef6"/>
+                <circle cx="440" cy="300" r="34" fill="#e6f3ff"/>
+                <rect x="490" y="280" width="160" height="12" rx="6" fill="#1d9bf0"/>
+                <rect x="490" y="304" width="120" height="10" rx="5" fill="#c9d7e6"/>
+                <rect x="490" y="324" width="140" height="10" rx="5" fill="#c9d7e6"/>
+              </g>
+            </svg>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 功能亮点 ===== -->
+    <section id="features" class="features container">
+      <h2 style="margin:0 0 12px;font-size:clamp(22px,3.2vw,32px)">功能亮点</h2>
+      <p style="color:var(--muted);margin:0 0 18px">干净的代码 + 出色的可读性 + 友好的可访问性（a11y）。</p>
+      <div class="feat-grid">
+        <article class="card" role="article">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4 5h16v2H4zm0 6h10v2H4zm0 6h16v2H4z"/></svg>
+          <h3>轻量单文件</h3>
+          <p>纯 HTML + CSS + 少量 JS，无依赖、即拷即用。</p>
+        </article>
+        <article class="card">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 5h18v12H3z"/><path fill="#fff" d="M6 8h12v6H6z"/></svg>
+          <h3>响应式布局</h3>
+          <p>基于 CSS Grid 与现代单位，手机到桌面都优雅。</p>
+        </article>
+        <article class="card">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 3l9 4-9 4-9-4 9-4zm0 7l9 4-9 4-9-4 9-4z"/></svg>
+          <h3>内置插画</h3>
+          <p>SVG 几何图形作为“图片”，自适应、可编辑。</p>
+        </article>
+        <article class="card">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a5 5 0 015 5v3h1a3 3 0 013 3v6H3v-6a3 3 0 013-3h1V7a5 5 0 015-5z"/></svg>
+          <h3>暗色模式</h3>
+          <p>一键切换，自动记忆偏好，保护视觉。</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- ===== 图集（含图片与文字） ===== -->
+    <section id="gallery" class="gallery container">
+      <h2 style="margin:0 0 12px;font-size:clamp(22px,3.2vw,32px)">图文展示</h2>
+      <p style="color:var(--muted);margin:0 0 18px">以下为内置示意图片（SVG 生成），可替换为产品照片或海报。</p>
+      <div class="grid" role="list">
+        <figure class="tile" role="listitem">
+          <svg viewBox="0 0 800 600" aria-label="柔和蓝色抽象海报" role="img">
+            <defs>
+              <linearGradient id="a1" x1="0" x2="1"><stop stop-color="#e8f5ff"/><stop offset="1" stop-color="#f9fcff"/></linearGradient>
+              <linearGradient id="a2" x1="0" x2="1"><stop stop-color="#1d9bf0"/><stop offset="1" stop-color="#7cd3ff"/></linearGradient>
+            </defs>
+            <rect width="800" height="600" fill="url(#a1)"/>
+            <circle cx="620" cy="140" r="90" fill="url(#a2)"/>
+            <rect x="110" y="360" width="280" height="160" rx="16" fill="#fff"/>
+            <rect x="150" y="398" width="200" height="14" rx="7" fill="#1d9bf0"/>
+            <rect x="150" y="424" width="160" height="12" rx="6" fill="#c8d8e8"/>
+          </svg>
+          <figcaption>示意图 A · 标题与卡片构图</figcaption>
+        </figure>
+        <figure class="tile" role="listitem">
+          <svg viewBox="0 0 800 600" aria-label="极简线条产品卡" role="img">
+            <rect width="800" height="600" fill="#f2f8ff"/>
+            <g stroke="#a7c7e7" stroke-width="3" fill="none">
+              <circle cx="200" cy="220" r="90"/>
+              <rect x="360" y="160" width="300" height="180" rx="14"/>
+              <path d="M120 420h560"/>
+            </g>
+          </svg>
+          <figcaption>示意图 B · 线稿风格（可用于占位）</figcaption>
+        </figure>
+        <figure class="tile" role="listitem">
+          <svg viewBox="0 0 800 600" aria-label="渐变块与排版" role="img">
+            <defs>
+              <linearGradient id="b1" x1="0" x2="1"><stop stop-color="#dff1ff"/><stop offset="1" stop-color="#eef7ff"/></linearGradient>
+            </defs>
+            <rect width="800" height="600" fill="url(#b1)"/>
+            <rect x="120" y="160" width="560" height="280" rx="20" fill="#ffffff"/>
+            <rect x="160" y="210" width="200" height="16" rx="8" fill="#1d9bf0"/>
+            <rect x="160" y="240" width="260" height="12" rx="6" fill="#cbd9ea"/>
+            <rect x="160" y="262" width="220" height="12" rx="6" fill="#d7e3f0"/>
+          </svg>
+          <figcaption>示意图 C · 渐变+版式（轻量可改）</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ===== 关于我们 + 联系方式 ===== -->
+    <section id="about" class="about container">
+      <div class="wrap">
+        <article class="card">
+          <h2 style="margin:0 0 10px">关于本站</h2>
+          <p>这是一个开箱即用的中文静态网站模板，适合产品展示、工作室介绍、个人作品集、活动页等场景。代码语义化良好，便于 SEO 与后续扩展。</p>
+          <ul>
+            <li>支持浅/深色主题、移动端菜单、平滑滚动</li>
+            <li>自带三张 SVG 示意图片，可自由替换为真实图片</li>
+            <li>极简设计语言，色彩柔和，布局克制</li>
+          </ul>
+          <p>想要“企业版/产品版”文案与配色？可在此基础上替换品牌色、标题与图集即可。</p>
+        </article>
+        <article id="contact" class="card">
+          <h2 style="margin:0 0 10px">联系我</h2>
+          <p style="margin-top:0;color:var(--muted)">纯静态表单示例（使用 <code>mailto:</code>），或接入第三方表单服务。</p>
+          <form action="mailto:someone@example.com" method="post" enctype="text/plain">
+            <label for="name">称呼</label>
+            <input id="name" name="name" placeholder="例如：张三" required />
+            <label for="email">邮箱</label>
+            <input id="email" name="email" type="email" placeholder="you@example.com" required />
+            <label for="msg">需求或留言</label>
+            <textarea id="msg" name="message" placeholder="请简单描述你的网站需求…"></textarea>
+            <button class="btn primary" type="submit">发送</button>
+          </form>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== 页脚 ===== -->
+  <footer>
+    <div class="container" style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px">
+      <span>© <span id="year"></span> 极简优雅 · 静态模板</span>
+      <span><a href="#">返回顶部 ↑</a></span>
+    </div>
+  </footer>
+
+  <script>
+    // 年份
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // 主题切换（记忆偏好）
+    const root = document.documentElement;
+    const saved = localStorage.getItem('theme');
+    if(saved){ root.setAttribute('data-theme', saved); }
+    document.getElementById('themeToggle').addEventListener('click', () => {
+      const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+    });
+
+    // 移动端菜单
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    menuBtn.addEventListener('click', () => {
+      const expanded = menuBtn.getAttribute('aria-expanded') === 'true';
+      menuBtn.setAttribute('aria-expanded', String(!expanded));
+      mobileMenu.hidden = expanded;
+    });
+  </script>
+</body>
+</html>
